@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rohit Kharpuriye - Full Stack Developer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.1;
+        }
+
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid white;
+            margin: 0 auto 20px;
+            object-fit: cover;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-img:hover {
+            transform: scale(1.05);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h2 {
+            font-size: 1.3rem;
+            font-weight: 300;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            animation: fadeIn 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+        .section:nth-child(5) { animation-delay: 0.5s; }
+        .section:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #667eea;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 50%;
+            height: 3px;
+            background: #764ba2;
+            transition: width 0.3s ease;
+        }
+
+        .section:hover .section-title::after {
+            width: 100%;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .contact-item {
+            background: #f8f9ff;
+            padding: 15px 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .contact-item strong {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .contact-item a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item a:hover {
+            color: #667eea;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+            background: #f8f9ff;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 4px solid #764ba2;
+            font-style: italic;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-item {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            border: 1px solid #e0e6ff;
+        }
+
+        .skill-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.15);
+        }
+
+        .skill-category {
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .skill-list {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .personal-skills {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .personal-skill {
+            background: #f8f9ff;
+            padding: 15px 20px;
+            border-radius: 10px;
+            border-left: 4px solid #764ba2;
+            transition: all 0.3s ease;
+        }
+
+        .personal-skill:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(118, 75, 162, 0.2);
+        }
+
+        .personal-skill strong {
+            color: #764ba2;
+            font-weight: 600;
+        }
+
+        .education-item, .languages-item {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        .languages-list {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .language-tag {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .language-tag:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+
+            .header {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .header h2 {
+                font-size: 1.1rem;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .profile-img {
+                width: 120px;
+                height: 120px;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .languages-list {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="../assets/image/media_20250221_160900_3041301229786159257.jpg" alt="Rohit Kharpuriye" class="profile-img">
+            <h1>Rohit Kharpuriye</h1>
+            <h2>Full Stack Developer</h2>
+        </div>
+
+        <div class="content">
+            <section class="section">
+                <h2 class="section-title">Contact</h2>
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <strong>Phone:</strong> <a href="tel:+917020886178">+91 7020886178</a>
+                    </div>
+                    <div class="contact-item">
+                        <strong>Email:</strong> <a href="mailto:kharpuriyerohit99@gmail.com">kharpuriyerohit99@gmail.com</a>
+                    </div>
+                    <div class="contact-item">
+                        <strong>Location:</strong> <a href="https://www.google.com/maps/place/Jolwadi,+Maharashtra+441305/@21.3473387,78.4464008,17z/data=!3m1!4b1!4m6!3m5!1s0x3bd44e6da32cbb5f:0x5377bb2a1d05473!8m2!3d21.3471847!4d78.4485509!16s%2Fg%2F1hjh3lh7l?entry=ttu&g_ep=EgoyMDI1MDIxOS4xIKXMDSoJLDEwMjExNDUzSAFQAw%3D%3D" target="_blank">Jolwadi, Maharashtra</a>
+                    </div>
+                    <div class="contact-item">
+                        <strong>GitHub:</strong> <a href="https://github.com/RohitFullStackDevloper" target="_blank">RohitFullStackDevloper</a>
+                    </div>
+                    <div class="contact-item">
+                        <strong>LinkedIn:</strong><a href="https://www.linkedin.com/in/rohit-kharpuriye-33413832b/" target="_blank"> Rohit Kharpuriye</a>
+                    </div>
+                    <div class="contact-item">
+                        <strong>Skype:</strong> <span>Available</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">About Me</h2>
+                <div class="about-text">
+                    "A passionate full-stack developer with a strong foundation in modern web technologies, dedicated to crafting user-centric applications with a focus on clean code and efficient development practices."
+                </div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">Technical Skills</h2>
+                <div class="skills-grid">
+                    <div class="skill-item">
+                        <div class="skill-category">Web Development</div>
+                        <div class="skill-list">HTML, CSS, JavaScript, Python, Bootstrap</div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-category">Programming Languages</div>
+                        <div class="skill-list">C, C++, JavaScript, Java, Python</div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-category">Operating Systems</div>
+                        <div class="skill-list">Windows 10, macOS</div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-category">Development Tools</div>
+                        <div class="skill-list">GitHub, Visual Studio Code</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">Education</h2>
+                <div class="education-item">
+                    Pursuing B.Tech in Computer Science Engineering
+                </div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">Languages</h2>
+                <div class="languages-item">
+                    <div class="languages-list">
+                        <span class="language-tag">English</span>
+                        <span class="language-tag">Marathi</span>
+                        <span class="language-tag">Hindi</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">Personal Skills</h2>
+                <div class="personal-skills">
+                    <div class="personal-skill">
+                        <strong>Problem-solving:</strong> Identifying challenges and developing effective solutions
+                    </div>
+                    <div class="personal-skill">
+                        <strong>Time management:</strong> Prioritizing and organizing tasks to meet deadlines
+                    </div>
+                    <div class="personal-skill">
+                        <strong>Communication:</strong> Understanding, relating to, and interacting effectively with others
+                    </div>
+                    <div class="personal-skill">
+                        <strong>Teamwork:</strong> Collaborating to share knowledge, meet deadlines, and build stronger relationships
+                    </div>
+                    <div class="personal-skill">
+                        <strong>Leadership:</strong> Leading projects and teams with confidence and vision
+                    </div>
+                    <div class="personal-skill">
+                        <strong>Interpersonal skills:</strong> Using empathy, flexibility, and patience in professional interactions
+                    </div>
+                    <div class="personal-skill">
+                        <strong>Critical thinking:</strong> Analyzing information systematically to solve complex problems
+                    </div>
+                    <div class="personal-skill">
+                        <strong>Planning & Organization:</strong> Managing time and tasks efficiently for optimal productivity
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>

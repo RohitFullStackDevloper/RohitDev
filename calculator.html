@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RK Animated Calculator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Orbitron', monospace;
+            background: linear-gradient(135deg, #e7e8ed 0%, #0d0d0e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+           
+        }
+
+      
+
+
+        .container {
+            height: 700px;
+            width: 480px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            animation: containerFloat 6s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shimmer 3s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        @keyframes containerFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(0.5deg); }
+        }
+
+        .title {
+            text-align: center;
+            color: #fff;
+            font-size: 24px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            animation: titleGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% { text-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
+            100% { text-shadow: 0 0 30px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.6); }
+        }
+
+        #display {
+            height: 140px;
+            width: 100%;
+            border: none;
+            border-radius: 20px;
+            background: linear-gradient(145deg, #1e3c72, #2a5298);
+            font-size: 36px;
+            color: #00ff88;
+            text-align: right;
+            padding: 20px;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            box-shadow: inset 0 10px 20px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.8);
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+        }
+
+        #display:focus {
+            outline: none;
+            box-shadow: inset 0 10px 20px rgba(0, 0, 0, 0.3), 0 0 30px rgba(0, 255, 136, 0.6);
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        button {
+            height: 70px;
+            border: none;
+            border-radius: 20px;
+            font-size: 24px;
+            font-weight: 700;
+            font-family: 'Orbitron', monospace;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transition: all 0.6s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        button:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .operator {
+            background: linear-gradient(145deg, #ff6b6b, #ee5a52);
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .operator:hover {
+            background: linear-gradient(145deg, #ff5252, #d32f2f);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 24px rgba(255, 107, 107, 0.4);
+        }
+
+        .number {
+            background: linear-gradient(145deg, #4fc3f7, #29b6f6);
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .number:hover {
+            background: linear-gradient(145deg, #29b6f6, #0288d1);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 24px rgba(79, 195, 247, 0.4);
+        }
+
+        .function {
+            background: linear-gradient(145deg, #ab47bc, #8e24aa);
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .function:hover {
+            background: linear-gradient(145deg, #8e24aa, #7b1fa2);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 24px rgba(171, 71, 188, 0.4);
+        }
+
+        .equals {
+            background: linear-gradient(145deg, #66bb6a, #4caf50);
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .equals:hover {
+            background: linear-gradient(145deg, #4caf50, #388e3c);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 24px rgba(102, 187, 106, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0) scale(0.95);
+        }
+
+        .zero {
+            grid-column: span 2;
+        }
+
+        @keyframes buttonPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: buttonPulse 0.3s ease;
+        }
+
+        @keyframes displayFlash {
+            0% { background: linear-gradient(145deg, #1e3c72, #2a5298); }
+            50% { background: linear-gradient(145deg, #2a5298, #1e3c72); }
+            100% { background: linear-gradient(145deg, #1e3c72, #2a5298); }
+        }
+
+        .flash {
+            animation: displayFlash 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">RK CALCULATOR</div>
+        <input type="text" id="display" readonly>
+        <div class="buttons">
+            <button class="function" onclick="clearAll()">AC</button>
+            <button class="function" onclick="deleteLast()">DEL</button>
+            <button class="operator" onclick="appendToDisplay('%')">%</button>
+            <button class="operator" onclick="appendToDisplay('/')">/</button>
+            
+            <button class="number" onclick="appendToDisplay('7')">7</button>
+            <button class="number" onclick="appendToDisplay('8')">8</button>
+            <button class="number" onclick="appendToDisplay('9')">9</button>
+            <button class="operator" onclick="appendToDisplay('*')">*</button>
+            
+            <button class="number" onclick="appendToDisplay('4')">4</button>
+            <button class="number" onclick="appendToDisplay('5')">5</button>
+            <button class="number" onclick="appendToDisplay('6')">6</button>
+            <button class="operator" onclick="appendToDisplay('-')">-</button>
+            
+            <button class="number" onclick="appendToDisplay('1')">1</button>
+            <button class="number" onclick="appendToDisplay('2')">2</button>
+            <button class="number" onclick="appendToDisplay('3')">3</button>
+            <button class="operator" onclick="appendToDisplay('+')">+</button>
+            
+            <button class="number zero" onclick="appendToDisplay('0')">0</button>
+            <button class="number" onclick="appendToDisplay('.')">.</button>
+            <button class="equals" onclick="calculate()">=</button>
+        </div>
+    </div>
+
+    <script>
+        let currentDisplay = '';
+        const display = document.querySelector('#display');
+        
+        function updateDisplay() {
+            display.value = currentDisplay || '0';
+        }
+
+        function appendToDisplay(value) {
+            if (currentDisplay === '0' && value !== '.') {
+                currentDisplay = value;
+            } else {
+                currentDisplay += value;
+            }
+            updateDisplay();
+            animateButton(event.target);
+        }
+
+        function clearAll() {
+            currentDisplay = '';
+            updateDisplay();
+            animateButton(event.target);
+            flashDisplay();
+        }
+
+        function deleteLast() {
+            currentDisplay = currentDisplay.slice(0, -1);
+            updateDisplay();
+            animateButton(event.target);
+        }
+
+        function calculate() {
+            try {
+                // Replace % with /100 for percentage calculations
+                let expression = currentDisplay.replace(/(\d+)%/g, '($1/100)');
+                let result = eval(expression);
+                
+                // Handle division by zero and other errors
+                if (!isFinite(result)) {
+                    throw new Error('Invalid calculation');
+                }
+                
+                currentDisplay = result.toString();
+                updateDisplay();
+                animateButton(event.target);
+                flashDisplay();
+            } catch (error) {
+                currentDisplay = 'Error';
+                updateDisplay();
+                setTimeout(() => {
+                    currentDisplay = '';
+                    updateDisplay();
+                }, 1500);
+            }
+        }
+
+        function animateButton(button) {
+            button.classList.add('pulse');
+            setTimeout(() => {
+                button.classList.remove('pulse');
+            }, 300);
+        }
+
+        function flashDisplay() {
+            display.classList.add('flash');
+            setTimeout(() => {
+                display.classList.remove('flash');
+            }, 500);
+        }
+
+        // Initialize display
+        updateDisplay();
+
+        // Add keyboard support
+        document.addEventListener('keydown', function(event) {
+            const key = event.key;
+            
+            if (key >= '0' && key <= '9' || key === '.') {
+                appendToDisplay(key);
+            } else if (key === '+' || key === '-' || key === '*' || key === '/') {
+                appendToDisplay(key);
+            } else if (key === '%') {
+                appendToDisplay('%');
+            } else if (key === 'Enter' || key === '=') {
+                calculate();
+            } else if (key === 'Escape' || key === 'c' || key === 'C') {
+                clearAll();
+            } else if (key === 'Backspace') {
+                deleteLast();
+            }
+        });
+    </script>
+</body>
+</html>
